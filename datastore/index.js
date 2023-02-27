@@ -27,10 +27,36 @@ exports.create = (text, callback) => {
 };
 
 exports.readAll = (callback) => {
-  var data = _.map(items, (text, id) => {
-    return { id, text };
+  // var data = _.map(items, (text, id) => {
+  //   return { id, text };
+  // });
+  // callback(null, data);
+
+  var data = [];
+  fs.readdir(exports.dataDir, (err, files) => {
+    if (err) {
+      throw ('error reading all files');
+    } else {
+      // var dataIds = ids.split('.');
+
+      // dataIds.forEach((id) => {
+      //   id = id[0];
+      //   data.push({id, text: id});
+      // });
+
+      // _.each(ids, (id) => {
+      //   var eachId = ids.split('.')[0];
+      //   data.push({id: eachId, text: eachId});
+      // });
+
+      for (var file in files) {
+        var eachId = files[file].slice(0, 5);
+        data.push({id: eachId, text: eachId});
+      }
+
+      callback(null, data);
+    }
   });
-  callback(null, data);
 };
 
 exports.readOne = (id, callback) => {
